@@ -46,7 +46,9 @@ module.exports = async (req, res) => {
   }
   
   if (req.method === 'PUT') {
-    const { id, type, value } = req.body;
+    // Extract id from URL path: /api/sold-out/product/[id]
+    const urlParts = req.url.split('/');
+    const id = urlParts[urlParts.length - 1];
     
     try {
       const product = await Product.findById(id);
@@ -55,23 +57,7 @@ module.exports = async (req, res) => {
         return res.status(404).json({ message: 'Product not found' });
       }
       
-      if (type === 'product') {
-        product.isSoldOut = !product.isSoldOut;
-      } else if (type === 'size') {
-        const index = product.soldOutSizes.indexOf(value);
-        if (index > -1) {
-          product.soldOutSizes.splice(index, 1);
-        } else {
-          product.soldOutSizes.push(value);
-        }
-      } else if (type === 'color') {
-        const index = product.soldOutColors.indexOf(value);
-        if (index > -1) {
-          product.soldOutColors.splice(index, 1);
-        } else {
-          product.soldOutColors.push(value);
-        }
-      }
+      product.isSoldOut = !product.isSoldOut;
       
       await product.save();
       return res.json(product);
