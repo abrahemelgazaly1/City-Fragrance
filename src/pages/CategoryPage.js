@@ -20,7 +20,7 @@ const CategoryPage = ({ addToCart, addToWishlist }) => {
   const fetchCategoryProducts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/api/products/category/${name}`);
+      const response = await axios.get(`${API_URL}/api/products?category=${name}`);
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching category products:', error);
