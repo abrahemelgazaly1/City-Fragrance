@@ -84,7 +84,7 @@ const ManageProducts = () => {
 
   const toggleBestSeller = async (id) => {
     try {
-      await axios.put(`${API_URL}/api/products/bestseller/${id}`);
+      await axios.put(`${API_URL}/api/products?bestseller=${id}`);
       Swal.fire({
         icon: 'success',
         title: 'Updated!',
